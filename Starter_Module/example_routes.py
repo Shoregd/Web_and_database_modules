@@ -52,3 +52,22 @@ def apply_example_routes(app):
         repository = BookRepository(connection)
         repository.delete(id)
         return "Book deleted successfully"
+    @app.route('/goodbye', methods=['POST'])
+    def goodbye():
+        name = request.form['name'] # The value is 'Alice'
+
+     # Send back a fond farewell with the name
+        return f"Goodbye {name}!"
+    
+    @app.route('/submit', methods =['POST'])
+    def submit_messsage():
+        name = request.form['name']
+        message = request.form['message']
+
+        return f'Thanks {name}, you sent this message: "{message}"'
+    
+    @app.route('/wave', methods =['GET'])
+    def waving_at():
+        name = request.args['name']
+        return f'I am waving at {name}'
+
