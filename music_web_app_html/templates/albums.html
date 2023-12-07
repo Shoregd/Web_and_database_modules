@@ -1,0 +1,16 @@
+<!-- GET /albums -->
+
+<html>
+  <head></head>
+  <body>
+    <h1>Albums</h1>
+    {% for album in albums %}
+        <div class='album_{{album.id}}'>
+          <p align="left">
+            <a href="/albums/{{album.id}}">&nbsp; &nbsp; &nbsp; Title: {{album.title}} <br/></a>
+            &nbsp; &nbsp; &nbsp; Released: {{album.release_year}}
+          </p>
+        </div>
+    {% endfor %}
+  </body>
+</html>

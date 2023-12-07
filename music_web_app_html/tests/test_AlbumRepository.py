@@ -50,4 +50,13 @@ def test_album_added_successfully_to_database(db_connection):
     ]
     db_connection.seed('seeds/music_web_app_test.sql')
     repository = AlbumRepository(db_connection)
+
+'''
+Test that the system can return a single album object and the associated artist name
+'''
+
+def test_get_album_info_returns_album_object_and_artist_name(db_connection):
+    db_connection.seed('seeds/music_web_app_test.sql')
+    repository = AlbumRepository(db_connection)
+    assert repository.get_album_info(1) == (Album(1, 'Doolittle', 1989, 1),'Pixies')
     
