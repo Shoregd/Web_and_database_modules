@@ -14,6 +14,9 @@ class AlbumRepository:
         self._connection.execute(
             'INSERT INTO albums (title,release_year,artist_id) VALUES (%s,%s,%s)',[albumtitle,releaseyear,artistid]
         )
+        rows = self._connection.execute('SELECT * FROM albums')
+        row = rows[-1]
+        return Album(row['id'],row['title'],row['release_year'],row['artist_id'])
     def get_album_info(self,albumid):
         rows = self._connection.execute(
             '''SELECT 

@@ -1,0 +1,16 @@
+<html>
+  <head></head>
+  <body>
+    <h1>Artists</h1>
+    {% for artist in artists %}
+        <div class='artist_{{artist.id}}'>
+          <p align="left">
+            &nbsp; &nbsp; &nbsp;<a href="/artists/{{artist.id}}"> Artist name: {{artist.name}} <br/></a>
+          </p>
+        </div>
+    {% endfor %}
+    <div>
+      <a href="/artists/new">Create a new artist.</a>
+    </div>
+  </body>
+</html>

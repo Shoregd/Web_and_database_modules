@@ -1,5 +1,6 @@
 from playwright.sync_api import Page, expect
 from lib.Album import Album
+from lib.Artist import Artist
 
 # Tests for your routes go here
 
@@ -62,14 +63,89 @@ def test_get_album_info(page,test_web_address):
 def test_link_can_be_accessed(page,test_web_address,db_connection):
     db_connection.seed('seeds/music_web_app_test.sql')
     page.goto(f'http://{test_web_address}/albums')
-    print(test_web_address)
     page.click("text=Title: Doolittle")
-    
-   
     test_location = page.locator('h1')
     expect(test_location).to_have_text('Doolittle')
     test_location = page.locator('p')
     expect(test_location).to_have_text('Release year: 1989\nArtist: Pixies')
+
+def test_list_artists_shows_list_of_artist_names(page,test_web_address,db_connection):
+    db_connection.seed('seeds/music_web_app_test.sql')
+    page.goto(f'http://{test_web_address}/artists')
+    artists = [
+        Artist(1,'Pixies','Rock'),
+        Artist(2,'ABBA','Pop'),
+        Artist(3,'Taylor Swift','Pop'),
+        Artist(4,'Nina Simone','Jazz')
+    ]
+    test_location=[]
+    for locator in range(0,len(artists)):
+        test_location.append(page.locator('.artist_'+str(locator+1)))
+        expect(test_location[locator]).to_have_text(f'Artist name: {artists[locator].name}')
+
+def test_single_artist_can_be_accessed_from_link(page,test_web_address,db_connection):
+    db_connection.seed('seeds/music_web_app_test.sql')
+    page.goto(f'http://{test_web_address}/artists')
+    page.click('text=Artist name: Taylor Swift')
+    h1_tag = page.locator('h1')
+    p_tag = page.locator('p')
+    expect(h1_tag).to_have_text('Taylor Swift')
+    expect(p_tag).to_have_text('Artist genre: Pop')
+
+def test_create_album(page,test_web_address,db_connection):
+    db_connection.seed('seeds/music_web_app_test.sql')
+    page.goto(f'http://{test_web_address}/albums')
+    page.click('text=Create a new album.')
+    page.fill('input[name=title]','Voyager')
+    page.fill('input[name=release_year]','2022')
+    page.fill('input[name=artist_id]','1')
+    page.click('text=Create Album')
+    test_location = page.locator('h1')
+    expect(test_location).to_have_text('Voyager')
+    test_location = page.locator('p')
+    expect(test_location).to_have_text('Release year: 2022\nArtist: Pixies')
+    
+
+def test_create_album_with_incorrect_info(page,test_web_address,db_connection):
+    db_connection.seed('seeds/music_web_app_test.sql')
+    page.goto(f'http://{test_web_address}/albums')
+    page.click('text=Create a new album.')
+    page.click('text=Create Album')
+    errors = page.locator(".t-errors")
+    expect(errors).to_have_text('''
+                                There were errors with your submission: 
+                                Title can't be blank, 
+                                Release year can't be blank,
+                                Artist id can't be blank
+                            ''')
+    
+
+def test_create_artist(page,test_web_address,db_connection):
+    db_connection.seed('seeds/music_web_app_test.sql')
+    page.goto(f'http://{test_web_address}/artists')
+    page.click('text=Create a new artist.')
+    page.fill('input[name=name]','Nickleback')
+    page.fill('input[name=genre]','Rock')
+    page.click('text=Create Artist')
+    test_location = page.locator('h1')
+    expect(test_location).to_have_text('Nickleback')
+    test_location = page.locator('p')
+    expect(test_location).to_have_text('Artist genre: Rock')
+
+def test_create_artist_with_incorrect_info(page,test_web_address,db_connection):
+    db_connection.seed('seeds/music_web_app_test.sql')
+    page.goto(f'http://{test_web_address}/artists')
+    page.click('text=Create a new artist.')
+    page.click('text=Create Artist')
+    errors = page.locator(".t-errors")
+    expect(errors).to_have_text('''
+                                There were errors with your submission: 
+                                Name can't be blank,
+                                Genre can't be blank
+                            ''')
+
+
+
   
 
     

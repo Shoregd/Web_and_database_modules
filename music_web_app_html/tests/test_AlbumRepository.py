@@ -31,7 +31,7 @@ Test that an album can be added. Nothing is returned, but, the list is updated.
 def test_album_added_successfully_to_database(db_connection):
     db_connection.seed('seeds/music_web_app_test.sql')
     repository = AlbumRepository(db_connection)
-    assert repository.add_album('Voyage',2022,2) == None
+    assert repository.add_album('Voyage',2022,2) == Album(13, 'Voyage', 2022, 2)
     result = repository.list_albums()
     assert result == [
         Album(1, 'Doolittle', 1989, 1),

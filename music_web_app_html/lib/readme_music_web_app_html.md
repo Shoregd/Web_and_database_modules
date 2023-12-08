@@ -48,6 +48,10 @@ Test-drive a GET /albums route that connects with an AlbumRepository and the dat
   </body>
 </html>
 
+Test-drive and implement a form page to add a new artist.
+
+You should then be able to use the form in your web browser to add a new artist, and see this new artist in the artists list page.
+
 --- ROUTE LAYOUT ---
 GET /albums
     No inputs. Returns html listed above.
@@ -58,6 +62,15 @@ html code needs compiling to allow for dynamic input. Tests need to be written f
 
 GET /albums/<id>
     No inputs besides specifying the album from the address. Will return similar  HTML to what is above. Additional HTML will add a link to the current albums get info page. No changes needed to the class or what it returns. Just a change to albums.html
+
+GET /artists/new
+    Directs the user to a form to fill out to create a new artist in the database.
+    It will validate the input to ensure that the form is filled out correctly and either tell the user that they're errors or redirect them to the newly created artist page at /artists/<newid>. HTML design will be located in artists/new_artist.html. HTML for /artists will need to be amended to have a link to create a new artist. This will then send the user to the POST method for /artists explained below.
+
+POST /artists
+  Will collect the information from the form provided by the user and, if it is valid, will create a new Artist object. Otherwise, it will redirect back to the form and inform the user of the errors in the last submission.
+  Artist model class will need a isvalid() function and a generate_errors() function
+    
 
 --- CLASS REVISION ---
 
@@ -75,6 +88,10 @@ AlbumRepository - Repository Class
               WHERE albums.id = %s''',[albumid]
 
   i.e get_album_info(1) would return Album(1,'Doolittle',1989,1),'Pixies' these can then be used by the route to feed into the HTML.
+
+Artist - Model Class
+  * isvalid() - Checks the values of name and genre to ensure they are not empty. No inputs. Returns True or False based on validity. No side effects.
+  * generate_errors() - appends an error message to a error_list to then return to the user based on any blank entries. No inputs. Returns a string containing error text. No side effects.
 
   
 

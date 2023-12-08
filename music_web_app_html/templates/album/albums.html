@@ -7,10 +7,15 @@
     {% for album in albums %}
         <div class='album_{{album.id}}'>
           <p align="left">
-            <a href="/albums/{{album.id}}">&nbsp; &nbsp; &nbsp; Title: {{album.title}} <br/></a>
+            &nbsp; &nbsp; &nbsp;<a href="/albums/{{album.id}}"> Title: {{album.title}} <br/></a>
             &nbsp; &nbsp; &nbsp; Released: {{album.release_year}}
           </p>
         </div>
     {% endfor %}
+        <div>
+          <br/>
+          <br/>
+          <a href="/albums/new">Create a new album.</a>
+        </div>
   </body>
 </html>
