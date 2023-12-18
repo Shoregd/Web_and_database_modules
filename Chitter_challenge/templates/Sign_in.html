@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+    {% autoescape true %}
+
+<h1 class="t-title">Sign in</h1>
+{% if errors %}
+<p>{{errors}}</p>    
+{% endif %}
+<form action="/sign_in" method="POST">
+      <p>
+        <label for="Username">Username:</label>
+        <input type="text" name="username" id="username">
+      </p>
+      <p>
+        <label for="user_email">Email Address:</label>
+        <input type="text" name="user_email" id="user_email">
+      </p>
+      <p>
+        <input type="submit" value="Sign in.">
+    </p>
+    </form>
+    <button onclick="location.href='/';">Go Back</button>
+
+  {% endautoescape %}
+  </html>

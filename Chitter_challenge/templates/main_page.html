@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+    {% autoescape true %}
+  <head>
+    <title>Chitter Board</title>
+    <meta charset="utf-8">
+  </head> 
+  <style>
+    .button {
+      border: 2px solid rgb(0,0,0);
+      color: rgb(0, 0, 0);
+      padding: 15px 32px;
+      text-align: center;
+      text-decoration: none;
+      display: inline-block;
+      font-size: 16px;
+      margin: 4px 2px;
+      cursor: pointer;
+    }
+    .button3 {
+      border: 2px solid rgb(0,0,0);
+      color: rgb(0, 0, 0);
+      padding: 2px 2px;
+      text-align: center;
+      text-decoration: none;
+      display: inline-block;
+      font-size: 16px;
+      margin: 4px 2px;
+      cursor: pointer;
+    }
+    .button1 {background-color: #cbc9c9;} 
+    .button2 {background-color: #cbc9c9;} 
+    .button3 {background-color: #cbc9c9;} 
+    .flex-box {
+  display:flex;
+  justify-content:space-between;
+  outline: none;
+}
+    </style>
+  <body>
+    {% if signedin %}
+    <p align="right" class="t-current_user">Signed in as {{ username }}</p>
+    <p align='right'><button class="button button3" onclick="location.href='/sign_out';">Sign out.</button></p>
+    <h1 align="left">
+        <strong>
+            New Post
+        </strong>
+    </h1>
+    <div class="flex-box">
+        <form action="/create_post" method="POST">
+            <p>
+              <label for="message">Message:</label>
+              <textarea word-wrap='normal' type="text" name="message" id="message" style="width: 300px; height: 40px;"></textarea>
+            </p>
+            <p>
+                <input type="submit" value="Post." style="float: right;">
+            </p>
+        </form>
+    </div>
+    
+    {% else %}
+    <p>
+        <button class="button button1" onclick="location.href='/sign_in';">Sign in!</button>
+        <button class="button button2" onclick="location.href='/sign_up';">Sign up!</button>
+    </p>
+    {% endif %}
+    <h2>Chitter Posts</h2>
+
+    {% if peeps %}
+
+      {% for peep in peeps %}
+      <article>
+      <strong class ='t-username'>{{peep.user_id}}</strong> 
+      <p class='t-usermessage'>{{peep.message}}</p>
+      <strong>{{peep.post_date}}</strong>
+      <strong>{{peep.post_time}}</strong>
+      <br></br>
+      </article>
+      {% endfor %}
+
+    {% endif %}
+
+
+
+
+
+  </body>
+
+  {% endautoescape %}
+</html>
